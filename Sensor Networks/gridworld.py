@@ -13,14 +13,14 @@ class GridWorld:
 
     _num_actions = len(_direction_deltas)
 
-    def __init__(self, reward_grid, terminal_mask, obstacle_mask, action_probabilities, no_action_probabilities):
+    def __init__(self, reward_grid, terminal_mask, obstacle_mask, action_probabilities, no_action_probability):
         self.reward_grid = reward_grid
         self.terminal_mask = terminal_mask
         self.obstacle_mask = obstacle_mask
 
         self._T = self._create_transition_matrix(
             action_probabilities,
-            no_action_probabilities,
+            no_action_probability,
             obstacle_mask
         )
 
@@ -37,7 +37,7 @@ class GridWorld:
 
         utility_grid = np.zeros_like(self.reward_grid)
         for i in range(iterations):
-            utility_grid = self.value_iteration(utility_grid=utility_grid)
+            utility_grid = self._value_iteration(utility_grid=utility_grid)
             policy_grids[:,:,i] = self.best_policy(utility_grid)
             utility_grids[:,:,i] = utility_grid
         
